@@ -5,14 +5,14 @@
         "use": "@vercel/static"
       },
       {
-        "src": "backend/runGo.js",
+        "src": "api/runGo.js",
         "use": "@vercel/node"
       }
     ],
     "routes": [
       {
         "src": "/api/run-go",
-        "dest": "/backend/runGo.js"
+        "dest": "/api/runGo.js"
       }
     ]
   }

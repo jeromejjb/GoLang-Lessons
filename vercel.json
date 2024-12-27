@@ -5,7 +5,7 @@
         "use": "@vercel/static"
       },
       {
-        "src": "backend/**/*.js",
+        "src": "backend/runGo.js",
         "use": "@vercel/node"
       }
     ],

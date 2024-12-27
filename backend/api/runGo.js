@@ -1,31 +1,32 @@
-// api/runGo.js
 const { exec } = require('child_process');
-const express = require('express');
 const cors = require('cors');
 const fs = require('fs');
 
-// Create Express app
-const app = express();
-app.use(cors()); // Enable CORS
-app.use(express.json()); // Enable JSON body parsing
+// Create an Express-like handler without using `app.listen` for Vercel serverless
+module.exports = async (req, res) => {
+  // Enable CORS
+  cors()(req, res, () => {});
 
-// Route to run Go code
-app.post('/run-go', (req, res) => {
-  const goCode = req.body.code;
+  // Handle POST requests to /run-go
+  if (req.method === 'POST') {
+    const goCode = req.body.code;
 
-  // Write the Go code to a temporary file
-  fs.writeFileSync('/tmp/temp.go', goCode);
+    // Write the Go code to a temporary file in Vercel's /tmp directory
+    try {
+      const filePath = '/tmp/temp.go';
+      fs.writeFileSync(filePath, goCode);
 
-  // Execute the Go code
-  exec('go run /tmp/temp.go', (error, stdout, stderr) => {
-    if (error) {
-      return res.status(500).json({ error: stderr });
+      // Execute the Go code
+      exec(`go run ${filePath}`, (error, stdout, stderr) => {
+        if (error) {
+          return res.status(500).json({ error: stderr });
+        }
+        res.json({ output: stdout });
+      });
+    } catch (error) {
+      res.status(500).json({ error: 'Failed to write Go code to file' });
     }
-    res.json({ output: stdout });
-  });
-});
-
-// Vercel serverless function handler
-module.exports = (req, res) => {
-  app(req, res); // Pass the request and response to the Express app
+  } else {
+    res.status(405).json({ error: 'Method Not Allowed' });
+  }
 };

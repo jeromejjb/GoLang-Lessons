@@ -42,14 +42,14 @@
     let output = ''; // Initialize the output variable
   
     const runGoCode = async () => {
-        try {
-            const response = await fetch('http://localhost:3001/run-go', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({ code: goCode }),
-            });
+    try {
+      const response = await fetch('https://go-lang-lessons.vercel.app/api/runGo', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ code: goCode }),
+      });
   
             const result = await response.json();
             output = result.output || result.error || 'Error running code';

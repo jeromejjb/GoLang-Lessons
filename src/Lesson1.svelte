@@ -13,7 +13,7 @@
 
   const runGoCode = async () => {
     try {
-      const response = await fetch('http://localhost:3001/run-go', {
+      const response = await fetch('https://go-lang-lessons.vercel.app/api/runGo', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

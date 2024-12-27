@@ -1,19 +1,11 @@
 {
-    "builds": [
-      {
-        "src": "public/**/*",
-        "use": "@vercel/static"
-      },
-      {
-        "src": "api/runGo.js",
-        "use": "@vercel/node"
+  "builds": [
+    {
+      "src": "package.json",
+      "use": "@vercel/static-build",
+      "config": {
+        "distDir": "public"
       }
-    ],
-    "routes": [
-      {
-        "src": "/api/run-go",
-        "dest": "/api/runGo.js"
-      }
-    ]
-  }
-  
+    }
+  ]
+}
